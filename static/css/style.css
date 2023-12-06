@@ -4,11 +4,6 @@
   margin: 0 auto;
 }
 
-.form-separator {
-  border: 1px solid rgb(0, 0, 0);
-  padding: 10px;
-  margin-top: 20px;
-}
 
 header,
 footer,
@@ -17,7 +12,8 @@ main {
 }
 
 header,
-main {
+main, 
+form {
   border-bottom: 2px solid;
   margin-bottom: 5px;
 }
