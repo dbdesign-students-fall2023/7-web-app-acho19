@@ -5,7 +5,6 @@
 {% block container %}
 <h2>Welcome to my resume!</h2>
 <p>
-        
     {% for doc in docs %}
     <div>
         <hr class="solid">
@@ -16,26 +15,29 @@
             </br>
         </p>
         <p>
-            {{ doc.company }}
-            {{ doc.experience }}
+            Company: {{ doc.company }}
+        </p>
+        <p>
+            Experience Received: {{ doc.experience }}
         </p>
             
     </div>
     {%endfor%}
 </p>
 
-<form method="POST" action="{{ url_for('create_post') }}">
-    <p>Company: <input type="text" id="company" name="company" /><br /></p>
-    <p>
-        Experience:
-        <textarea type="text" id="experience" name="experience"></textarea>
-    </p>
-    <p>
-        <a href="{{ url_for('experiences')}}">Cancel</a>
-        <input type="submit" name="post-btn" value="Post" />
-    </p>
-</form>
-
+<div class = "form-separator">
+    <form method="POST" action="{{ url_for('create_post') }}">
+        <p>Company: <input type="text" id="company" name="company" /><br /></p>
+        <p>
+            Experience:
+            <textarea type="text" id="experience" name="experience"></textarea>
+        </p>
+        <p>
+            <a href="{{ url_for('experiences')}}">Cancel</a>
+            <input type="submit" name="post-btn" value="Post" />
+        </p>
+    </form>
+</div>
 
 
 {% endblock %}
