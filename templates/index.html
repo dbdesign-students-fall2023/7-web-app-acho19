@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 
 {% block container %}
-<h2>Welcome!</h2>
-<p>Welcome to the Flask app. This is the home page. Here are a few links to example pages you might find interesting.
-    <ul>
-        <li><a href="{{ url_for('read')}}">a page that displays information pulled from a MongoDB database collection</a></li>
-        <li><a href="{{ url_for('create')}}">a page with a form you can submit to create a new record in a MongoDB collection</a></li>
-    </ul>
+<h2>Welcome to my resume!</h2>
+<p>
+    My name is Alice Cho and I am a senior in NYU. A little bit of information about me: I was born in São Paulo, Brazil and I am a first generation student. I am currently working on my sustainable clothing brand and I hope to gain more industry opportunities. For security reasons, please provide the password for this resume. Thank you and I hope you hire me! 
 </p>
+
+<form method="POST" action="{{ url_for('password', mongoid=mongoid) }}">
+    <label for="password">Enter the password for Alice's resume: </label><br>
+    <input type="text" id="password" name = "password"><br><br>
+    <input type = "submit" value = "Submit">
+</form>
 {% endblock %}

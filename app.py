@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import Flask, render_template, request, redirect, url_for, make_response
+from flask import Flask, render_template, request, redirect, url_for, make_response, session
 from markupsafe import escape
 import pymongo
 import datetime
@@ -11,15 +11,13 @@ import subprocess
 # instantiate the app
 app = Flask(__name__)
 
-# load credentials and configuration options from .env file
-# if you do not yet have a file named .env, make one based on the template in env.example
 import credentials
 config = credentials.get()
 
-# turn on debugging if in development mode
 if config['FLASK_ENV'] == 'development':
     # turn on debugging, if in development
-    app.debug = True # debug mnode
+    app.debug = True # debug mode
+
 
 # make one persistent connection to the database
 connection = pymongo.MongoClient(config['MONGO_HOST'], 27017, 
@@ -28,9 +26,9 @@ connection = pymongo.MongoClient(config['MONGO_HOST'], 27017,
                                 authSource=config['MONGO_DBNAME'])
 db = connection[config['MONGO_DBNAME']] # store a reference to the database
 
+users_collection = db['users'] #store a reference to the users collection
 
 # set up the routes
-
 @app.route('/')
 def home():
     """
@@ -39,78 +37,40 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/read')
-def read():
-    """
-    Route for GET requests to the read page.
-    Displays some information for the user with links to other pages.
-    """
+# check if the password is correct, if it is then redirect to the work experience html 
+@app.route('/password',methods=['POST']) 
+def password():
+    password = request.form['password']
+    if password == 'PleaseHireAlice': 
+        return redirect(url_for('experiences'))
+    else: 
+        return redirect(url_for('index'))
+    
+
+@app.route('/experiences')
+def experiences():
     docs = db.exampleapp.find({}).sort("created_at", -1) # sort in descending order of created_at timestamp
-    return render_template('read.html', docs=docs) # render the read template
+    return render_template('experiences.html', docs=docs)
 
-
-@app.route('/create')
-def create():
-    """
-    Route for GET requests to the create page.
-    Displays a form users can fill out to create a new document.
-    """
-    return render_template('create.html') # render the create template
-
-
-@app.route('/create', methods=['POST'])
+@app.route('/experiences', methods=['POST'])
 def create_post():
     """
     Route for POST requests to the create page.
     Accepts the form submission data for a new document and saves the document to the database.
     """
-    name = request.form['fname']
-    message = request.form['fmessage']
+    company = request.form['company']
+    experience = request.form['experience']
 
 
     # create a new document with the data the user entered
     doc = {
-        "name": name,
-        "message": message, 
+        "company": company,
+        "experience": experience, 
         "created_at": datetime.datetime.utcnow()
     }
     db.exampleapp.insert_one(doc) # insert a new document
 
-    return redirect(url_for('read')) # tell the browser to make a request for the /read route
-
-
-@app.route('/edit/<mongoid>')
-def edit(mongoid):
-    """
-    Route for GET requests to the edit page.
-    Displays a form users can fill out to edit an existing record.
-    """
-    doc = db.exampleapp.find_one({"_id": ObjectId(mongoid)})
-    return render_template('edit.html', mongoid=mongoid, doc=doc) # render the edit template
-
-
-@app.route('/edit/<mongoid>', methods=['POST'])
-def edit_post(mongoid):
-    """
-    Route for POST requests to the edit page.
-    Accepts the form submission data for the specified document and updates the document in the database.
-    """
-    name = request.form['fname']
-    message = request.form['fmessage']
-
-    doc = {
-        # "_id": ObjectId(mongoid), 
-        "name": name, 
-        "message": message, 
-        "created_at": datetime.datetime.utcnow()
-    }
-
-    db.exampleapp.update_one(
-        {"_id": ObjectId(mongoid)}, # match criteria
-        { "$set": doc }
-    )
-
-    return redirect(url_for('read')) # tell the browser to make a request for the /read route
+    return redirect(url_for('experiences')) # tell the browser to make a request for the /read route
 
 
 @app.route('/delete/<mongoid>')
@@ -120,7 +80,7 @@ def delete(mongoid):
     Deletes the specified record from the database, and then redirects the browser to the read page.
     """
     db.exampleapp.delete_one({"_id": ObjectId(mongoid)})
-    return redirect(url_for('read')) # tell the web browser to make a request for the /read route.
+    return redirect(url_for('experiences')) # tell the web browser to make a request for the /read route.
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -146,7 +106,7 @@ def handle_error(e):
     """
     Output any errors - good for debugging.
     """
-    return render_template('error.html', error=e) # render the edit template
+    return render_template('error.html', error=e) # render the error template
 
 
 if __name__ == "__main__":
