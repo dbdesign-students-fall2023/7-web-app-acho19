@@ -72,6 +72,28 @@ def create_post():
 
     return redirect(url_for('experiences')) # tell the browser to make a request for the /read route
 
+@app.route('/edit/<mongoid>', methods=['POST'])
+def edit_post(mongoid):
+    """
+    Route for POST requests to the edit page.
+    Accepts the form submission data for the specified document and updates the document in the database.
+    """
+    company = request.form['company']
+    experience = request.form['experience']
+
+    doc = {
+        # "_id": ObjectId(mongoid), 
+        "company": company, 
+        "experience": experience, 
+        "created_at": datetime.datetime.utcnow()
+    }
+
+    db.exampleapp.update_one(
+        {"_id": ObjectId(mongoid)}, # match criteria
+        { "$set": doc }
+    )
+
+    return redirect(url_for('experiences')) # tell the browser to make a request for the /read route
 
 @app.route('/delete/<mongoid>')
 def delete(mongoid):
