@@ -44,7 +44,7 @@ def password():
     if password == 'PleaseHireAlice': 
         return redirect(url_for('experiences'))
     else: 
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
     
 
 @app.route('/experiences')
