@@ -129,7 +129,7 @@ def create_education():
     return redirect(url_for('education'))
 
 # EDIT EXPERIENCE
-@app.route('/edit/<mongoid>')
+@app.route('/edit/<edit_type>/<mongoid>')
 def edit(edit_type,mongoid):
     """
     Route for GET requests to the edit page.
@@ -139,13 +139,13 @@ def edit(edit_type,mongoid):
     doc = db.exampleapp.find_one({"_id": ObjectId(mongoid)})
     if edit_type == 'skills':
         return render_template('edit_skills.html', mongoid=mongoid, doc=doc)
-    elif edit_type == 'education':
+    if edit_type == 'education':
         return render_template('edit_education.html', mongoid=mongoid,doc=doc)
-    elif edit_type == 'experiences':
+    if edit_type == 'experiences':
         return render_template('edit.html', mongoid=mongoid, doc=doc)
     # render the edit template based on the edit type
 
-@app.route('/edit/<mongoid>', methods=['POST'])
+@app.route('/edit/<edit_type>/<mongoid>', methods=['POST'])
 def edit_post(edit_type, mongoid):
     """
     Route for POST requests to the edit page.
@@ -207,7 +207,7 @@ def edit_post(edit_type, mongoid):
             "end_month": end_month
         }
         
-        return redirect(url_for('experience'))
+        return redirect(url_for('education'))
         
 @app.route('/delete/<mongoid>')
 def delete(mongoid):
