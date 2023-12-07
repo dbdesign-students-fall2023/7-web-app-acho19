@@ -1,14 +1,10 @@
 {% extends 'base.html' %} {% block container %}
-<h2>Update an Experience</h2>
-<p>Edit an experience.</p>
-<form method="POST" action="{{ url_for('edit_post',edit_type = 'experiences' mongoid=mongoid) }}">
+<h2>Update an Education</h2>
+<p>Edit an education.</p>
+<form method="POST" action="{{ url_for('edit_post', edit_type = 'education',mongoid=mongoid) }}">
   <p>
-    Company:
-    <textarea id="company" name="company">{{doc.company}}</textarea>
-  </p>
-  <p>
-    Experience:
-    <textarea id="experience" name="experience">{{doc.experience}}</textarea>
+    Education:
+    <textarea id="education" name="education">{{doc.education}}</textarea>
   </p>
   <p>
     Start Year:
@@ -27,7 +23,7 @@
     <textarea id="end_month" name="end_month">{{doc.end_month}}</textarea>
   </p>
   <p>
-    <a href="{{ url_for('experiences')}}">Cancel</a>
+    <a href="{{ url_for('education')}}">Cancel</a>
     <input type="submit" name="post-btn" value="Save" />
   </p>
 </form>

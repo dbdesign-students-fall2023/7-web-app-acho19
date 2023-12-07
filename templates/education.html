@@ -14,14 +14,11 @@
         <p class="post">
             Posted by Alice Cho at {{ doc.created_at.strftime("%H:%M on %d %B %Y") }}
             </br>
-            <a href="{{ url_for('edit',mongoid=doc._id)}}">Edit</a> | <a href="{{ url_for('delete',mongoid=doc._id)}}">Delete</a>
+            <a href="{{ url_for('edit',edit_type ='education',mongoid=doc._id)}}">Edit</a> | <a href="{{ url_for('delete',mongoid=doc._id)}}">Delete</a>
             </br>
         </p>
         <p>
-            Company: {{ doc.company }}
-        </p>
-        <p>
-            Experience Received: {{ doc.experience }}
+            Education: {{ doc.education }}
         </p>
         <p>
             Start Month & Year: {{ doc.start_month }} / {{ doc.start_year }}
@@ -36,12 +33,8 @@
 </p>
 
 
-<form method="POST" action="{{ url_for('create_post') }}">
-    <p>Company: <input type="text" id="company" name="company" /><br /></p>
-    <p>
-        Experience:
-        <textarea type="text" id="experience" name="experience"></textarea>
-    </p>
+<form method="POST" action="{{ url_for('create_education') }}">
+    <p>Education: <input type="text" id="education" name="education" /><br /></p>
     <p>
         Start Month:
         <textarea type="text" id="start_month" name="start_year"></textarea>
@@ -60,7 +53,7 @@
     </p>
 
     <p>
-        <a href="{{ url_for('experiences')}}">Cancel</a>
+        <a href="{{ url_for('education')}}">Cancel</a>
         <input type="submit" name="post-btn" value="Post" />
     </p>
 </form>
