@@ -14,7 +14,7 @@
         <p class="post">
             Posted by Alice Cho at {{ doc.created_at.strftime("%H:%M on %d %B %Y") }}
             </br>
-            <a href="{{ url_for('edit',edit_type = 'experiences',mongoid=doc._id)}}">Edit</a> | <a href="{{ url_for('delete',mongoid=doc._id)}}">Delete</a>
+            <a href="{{ url_for('edit',mongoid=doc._id)}}">Edit</a> | <a href="{{ url_for('delete',mongoid=doc._id)}}">Delete</a>
             </br>
         </p>
         <p>

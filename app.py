@@ -54,161 +54,70 @@ def experiences():
 
 @app.route('/experiences', methods=['POST'])
 def create_post():
-    """
-    Route for POST requests to the create page.
-    Accepts the form submission data for a new document and saves the document to the database.
-    """
-    company = request.form['company']
-    experience = request.form['experience']
-    start_month = request.form['start_month']
-    start_year = request.form['start_year']
-    end_month = request.form['end_month']
-    end_year = request.form['end_year']
+
+        company = request.form['company']
+        experience = request.form['experience']
+        start_month = request.form['start_month']
+        start_year = request.form['start_year']
+        end_month = request.form['end_month']
+        end_year = request.form['end_year']
 
 
-    # create a new document with the data the user entered
-    doc = {
-        "company": company,
-        "experience": experience,
-        "start_year": start_year,
-        "start_month": start_month,
-        "end_year": end_year,
-        "end_month": end_month,
-        "created_at": datetime.datetime.utcnow()
-    }
-    db.exampleapp.insert_one(doc) # insert a new document
+        # create a new document with the data the user entered
+        doc = {
+            "company": company,
+            "experience": experience,
+            "start_year": start_year,
+            "start_month": start_month,
+            "end_year": end_year,
+            "end_month": end_month,
+            "created_at": datetime.datetime.utcnow()
+        }
+        db.exampleapp.insert_one(doc) # insert a new document
 
-    return redirect(url_for('experiences')) # tell the browser to make a request for the /read route
+        return redirect(url_for('experiences')) # tell the browser to make a request for the /read route
 
-# Skills page 
-@app.route('/skills') 
-def skills():
-    docs = db.exampleapp.find({}).sort("created_at", -1) # sort in descending order of created_at timestamp
-    return render_template('skills.html', docs=docs)
-
-@app.route('/skills',methods=['POST']) 
-def create_skill():
-    skills = request.form['skills']
-    projects = request.form['projects']
-    
-    doc = {
-        "skills": skills,
-        "projects": projects,
-        "created_at": datetime.datetime.utcnow()
-    }
-    
-    db.exampleapp.insert_one(doc)
-    
-    return redirect(url_for('skills'))
-
-# Education page 
-@app.route('/education')
-def education():
-    docs = db.exampleapp.find({}).sort("end_year", -1) # sort in descending order of created_at timestamp
-    return render_template('education.html', docs=docs)
-
-@app.route('/education',methods=['POST']) 
-def create_education():
-    education = request.form['education']
-    start_year = request.form['start_year']
-    start_month = request.form['start_month']
-    end_year = request.form['end_year']
-    end_month = request.form['end_month']
-    
-    
-    doc = {
-        "education": education,
-        "start_year": start_year,
-        "start_month": start_month,
-        "end_year": end_year,
-        "end_month": end_month
-    }
-    
-    db.exampleapp.insert_one(doc)
-    
-    return redirect(url_for('education'))
 
 # EDIT EXPERIENCE
-@app.route('/edit/<edit_type>/<mongoid>')
-def edit(edit_type,mongoid):
+@app.route('/edit/<mongoid>')
+def edit(mongoid):
     """
     Route for GET requests to the edit page.
     Displays a form users can fill out to edit an existing record.
     """
     
     doc = db.exampleapp.find_one({"_id": ObjectId(mongoid)})
-    if edit_type == 'skills':
-        return render_template('edit_skills.html', mongoid=mongoid, doc=doc)
-    if edit_type == 'education':
-        return render_template('edit_education.html', mongoid=mongoid,doc=doc)
-    if edit_type == 'experiences':
-        return render_template('edit.html', mongoid=mongoid, doc=doc)
+    return render_template('edit.html', mongoid=mongoid, doc=doc)
     # render the edit template based on the edit type
 
-@app.route('/edit/<edit_type>/<mongoid>', methods=['POST'])
-def edit_post(edit_type, mongoid):
-    """
-    Route for POST requests to the edit page.
-    Accepts the form submission data for the specified document and updates the document in the database.
-    """
-    if edit_type == 'experiences':
-        company = request.form['company']
-        experience = request.form['experience']
-        start_month=request.form['start_month']
-        start_year = request.form['start_year']
-        end_month=request.form['end_month']
-        end_year = request.form['end_year']
+@app.route('/edit/<mongoid>', methods=['POST'])
+def edit_post(mongoid):
 
-        doc = {
-            # "_id": ObjectId(mongoid), 
-            "company": company, 
-            "experience": experience, 
-            "created_at": datetime.datetime.utcnow(),
-            "start_year": start_year,
-            "start_month": start_month,
-            "end_year": end_year,
-            "end_month": end_month
-        }
+    company = request.form['company']
+    experience = request.form['experience']
+    start_month=request.form['start_month']
+    start_year = request.form['start_year']
+    end_month=request.form['end_month']
+    end_year = request.form['end_year']
 
-        db.exampleapp.update_one(
-            {"_id": ObjectId(mongoid)}, # match criteria
-            { "$set": doc }
-        )
+    doc = {
+        # "_id": ObjectId(mongoid), 
+        "company": company, 
+        "experience": experience, 
+        "created_at": datetime.datetime.utcnow(),
+        "start_year": start_year,
+        "start_month": start_month,
+        "end_year": end_year,
+        "end_month": end_month
+    }
 
-        return redirect(url_for('experiences')) # tell the browser to make a request for the /experience route 
-    elif edit_type == 'skills':
-        skills = request.form['skills']
-        projects = request.form['projects']
-        
-        doc = {
-            "skills": skills,
-            "projects": projects,
-            "created_at": datetime.datetime.utcnow
-        }
-        
-        db.exampleapp.update_one(
-            {"_id": ObjectId(mongoid)}, # match criteria
-            { "$set": doc }
-        )
+    db.exampleapp.update_one(
+        {"_id": ObjectId(mongoid)}, # match criteria
+        { "$set": doc }
+    )
 
-        return redirect(url_for('skills')) # tell the browser to make a request for the /skills route 
-    
-    elif edit_type == 'education': 
-        education = request.form['education']
-        start_month=request.form['start_month']
-        start_year = request.form['start_year']
-        end_month=request.form['end_month']
-        end_year = request.form['end_year']
-        doc = {
-            "education": request.form['education'],
-            "start_year": start_year,
-            "start_month": start_month,
-            "end_year": end_year,
-            "end_month": end_month
-        }
-        
-        return redirect(url_for('education'))
-        
+    return redirect(url_for('experiences')) # tell the browser to make a request for the /experience route 
+
 @app.route('/delete/<mongoid>')
 def delete(mongoid):
     """
