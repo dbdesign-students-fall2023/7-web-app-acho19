@@ -1,0 +1,39 @@
+<!-- experiences: user inputted (my input) appear chronlogically -->
+
+{% extends 'base.html' %}
+
+{% block container %}
+<h2>Update your resume, Alice!</h2>
+
+<form method="POST" action="{{ url_for('create_post') }}" id = "form">
+    <p>Company: <input type="text" id="company" name="company" /><br /></p>
+    <p>
+        Experience:
+        <textarea type="text" id="experience" name="experience"></textarea>
+    </p>
+    <p>
+        Start Month:
+        <textarea type="text" id="start_month" name="start_month"></textarea>
+    </p>    
+    <p>
+        Start Year:
+        <textarea type="text" id="start_year" name="start_year"></textarea>
+    </p>
+    <p>
+        End Month:
+        <textarea type="text" id="end_month" name="end_month"></textarea>
+    </p>
+    <p>
+        End Year:
+        <textarea type="text" id="end_year" name="end_year"></textarea>
+    </p>
+
+    <p>
+        <a href="{{ url_for('experiences')}}">Cancel</a>
+        <input type="submit" name="post-btn" value="Post" />
+    </p>
+</form>
+
+
+
+{% endblock %}
