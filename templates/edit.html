@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block container %}
 <h2>Update an Experience</h2>
 <p>Edit an experience.</p>
-<form method="POST" action="{{ url_for('edit_post',edit_type = 'experiences' mongoid=mongoid) }}" id = "form">
+<form method="POST" action="{{ url_for('edit_post',edit_type = 'experiences',mongoid=mongoid) }}" id = "form">
   <p>
     Company:
     <textarea id="company" name="company">{{doc.company}}</textarea>
