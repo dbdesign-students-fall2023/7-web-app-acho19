@@ -12,9 +12,12 @@ form {
   padding: 20px;
 }
 
-header,
-main, 
 form {
+  border-top: 2px solid;
+  margin-top: 5px;
+}
+header,
+main {
   border-bottom: 2px solid;
   margin-bottom: 5px;
 }

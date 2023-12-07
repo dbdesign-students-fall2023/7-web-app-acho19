@@ -60,8 +60,8 @@ def create_post():
     """
     company = request.form['company']
     experience = request.form['experience']
-    start_month = request.form['month']
-    start_year = request.form['year']
+    start_month = request.form['start_month']
+    start_year = request.form['start_year']
     end_month = request.form['end_month']
     end_year = request.form['end_year']
 
