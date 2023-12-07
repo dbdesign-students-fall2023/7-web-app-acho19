@@ -13,8 +13,8 @@ form {
 }
 
 form {
-  border-top: 2px solid;
-  margin-top: 5px;
+  border-top:2px solid;
+  margin-bottom:5px;
 }
 header,
 main {
@@ -27,5 +27,6 @@ p.post {
 }
 
 footer {
+  border-top: 1px;
   margin-bottom: 5px;
 }
