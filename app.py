@@ -52,7 +52,7 @@ def experiences():
     docs = db.exampleapp.find({}).sort("end_year", -1) # sort in descending order of created_at timestamp
     return render_template('experiences.html', docs=docs)
 
-@app.route('/experiences', methods=['POST'])
+@app.route('/create', methods=['POST'])
 def create_post():
 
         company = request.form['company']
