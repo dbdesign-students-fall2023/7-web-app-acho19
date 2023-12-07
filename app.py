@@ -141,7 +141,7 @@ def edit(edit_type,mongoid):
         return render_template('edit_skills.html', mongoid=mongoid, doc=doc)
     elif edit_type == 'education':
         return render_template('edit_education.html', mongoid=mongoid,doc=doc)
-    else:
+    elif edit_type == 'experiences':
         return render_template('edit.html', mongoid=mongoid, doc=doc)
     # render the edit template based on the edit type
 
@@ -193,7 +193,7 @@ def edit_post(edit_type, mongoid):
 
         return redirect(url_for('skills')) # tell the browser to make a request for the /skills route 
     
-    else: 
+    elif edit_type == 'education': 
         education = request.form['education']
         start_month=request.form['start_month']
         start_year = request.form['start_year']
