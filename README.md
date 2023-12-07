@@ -6,5 +6,5 @@ Having said that, I wanted to keep my app short and simple because recruiters wa
 
 As we go into the resume, I decided to order my experiences not by when it was created but by the end date. For example, we can see that Company B was created after Company A was created but it is listed below because Company B's end date is before Company A's. I have also decided to keep all the features in this one page because it is easier to manage and determine what more to put on my resume with the creation of it down below. 
 
-This is the link to [Alice's Resume]](https://i6.cims.nyu.edu/~ac7822/7-web-app-acho19/flask.cgi/) and the password is PleaseHireAlice
+This is the link to [Alice's Resume](https://i6.cims.nyu.edu/~ac7822/7-web-app-acho19/flask.cgi/) and the password is PleaseHireAlice
 
